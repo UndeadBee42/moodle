@@ -11,7 +11,7 @@ namespace db_interact
         void connect();
         Dictionary<string, string> get_settings();
         void set_settings(Dictionary<string, string> s);
-        // добавить студентов 
+        // добавить пользователей
     }
     public class sql_server : db_interact
     {
