@@ -13,7 +13,7 @@ namespace file_opener
     }
     public class cvs_opener : file_opener
     {
-        /*
+        /* awd
          пример открывателя файлов
         здесь реализация
          */
