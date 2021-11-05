@@ -42,7 +42,7 @@ namespace server
             if (quit) { return; }
             listener.Start();
 
-            //try {
+            try {
                 HttpListenerContext ctx = listener.GetContext();
 
 
@@ -130,8 +130,8 @@ namespace server
                     resp.Close();
                 }
                 
-           // }
-           // catch { }
+            }
+            catch { }
             
             
         }
