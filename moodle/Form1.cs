@@ -13,7 +13,7 @@ namespace moodle
 {
     public partial class Form1 : Form
     {
-        //контейнеры для открывателей файлов и дб взаимодействователей
+        //контейнеры для открывателей файлов и БД взаимодействователей
         List<file_opener.file_opener> file_openers = new List<file_opener.file_opener>();
         List<db_interact.db_interact> db_interactors = new List<db_interact.db_interact>();
         bool keep_server_alive = true;
