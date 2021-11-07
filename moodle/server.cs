@@ -91,7 +91,7 @@ namespace server
                         {
                             data += string.Format("<input type=\"text\" name=\"{0}\" id=\"{0}\" value=\"{1}\" required><label for=\"{0}\">{0}</label><br>", item.Key, item.Value);
                         }
-                        data += "</form>";
+                        data += "<input type=\"submit\"></form>";
                         page = page.Replace("<!--SETTINGS-->", data);
                     }
                     else
@@ -114,7 +114,6 @@ namespace server
                     resp.ContentType = "text/html";
                     resp.ContentEncoding = Encoding.UTF8;
                     resp.ContentLength64 = page.Length;
-                Console.Write(page);
                     resp.OutputStream.Write(Encoding.UTF8.GetBytes(page), 0, page.Length);
                     resp.Close();
                 }
