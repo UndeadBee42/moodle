@@ -50,8 +50,17 @@ namespace server
                 HttpListenerRequest req = ctx.Request;
                 HttpListenerResponse resp = ctx.Response;
 
-
-
+                int last_dot_index = req.Url.AbsolutePath.LastIndexOf('.');
+                if (last_dot_index != -1) {
+                    if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "png") {
+                        string path = "..\\..\\" + req.Url.AbsolutePath.Substring(1);
+                        byte[] data = File.ReadAllBytes(path);
+                        resp.ContentType = "image/png";
+                        resp.ContentLength64 = data.LongLength;
+                        resp.OutputStream.Write(data, 0, data.Length);
+                        resp.Close();
+                    }
+                }
                 // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
                 if ((req.HttpMethod == "POST"))
                 {
@@ -79,7 +88,7 @@ namespace server
                     resp.OutputStream.Write(Encoding.UTF8.GetBytes(data), 0, data.Length);
                     resp.Close();
                 }
-
+                
                 if (req.Url.AbsolutePath == "/settings") {
                     
                     string page = File.ReadAllText("..\\..\\settings.html");
