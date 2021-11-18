@@ -49,7 +49,7 @@ namespace server
                 // Peel out the requests and response objects
                 HttpListenerRequest req = ctx.Request;
                 HttpListenerResponse resp = ctx.Response;
-
+                Console.WriteLine(req.Url.AbsolutePath);
                 int last_dot_index = req.Url.AbsolutePath.LastIndexOf('.');
                 if (last_dot_index != -1) {
                     if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "png") {
@@ -64,13 +64,15 @@ namespace server
                 // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
                 if ((req.HttpMethod == "POST"))
                 {
-                    StreamReader reader = new StreamReader(req.InputStream,Encoding.UTF8);
-                    string content;
-                    string data;
-                    content = reader.ReadToEnd();
+                    BinaryReader reader = new BinaryReader(req.InputStream,Encoding.Unicode);
                     
+                    char[] content;
+                    string data;
+                    content = reader.ReadChars((int)req.ContentLength64);
+                    string parseble =new string(content);
+                   
                     if (parsers.Keys.Contains(req.Url.AbsolutePath.Substring(1))) {
-                        parsers[req.Url.AbsolutePath.Substring(1)].parse(content);
+                        parsers[req.Url.AbsolutePath.Substring(1)].parse(parseble);
                         data = "ok";
                     }
                     else

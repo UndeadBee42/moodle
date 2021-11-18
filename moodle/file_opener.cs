@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 namespace file_opener
 {
+    
     public interface file_opener
     {
         /*
@@ -10,6 +12,7 @@ namespace file_opener
          */
        void parse(string content);
        string type { get; set; }
+        void push_students(List<moodle.student> _students);
     }
     public class cvs_opener : file_opener
     {
@@ -17,15 +20,27 @@ namespace file_opener
          пример открывателя файлов
         здесь реализация
          */
+        List<moodle.student> students;
+        public void push_students(List<moodle.student> _students) {
+            students = _students;
+        }
         public cvs_opener() {
             
         }
         public void parse(string content) {
-            /*
-             реализация parse()
-             */
-            Console.WriteLine("cvs parser:");
-            Console.Write(content);
+            string[] lines = content.Split(
+                    new string[] { Environment.NewLine },
+                                StringSplitOptions.None
+                                );
+            foreach (var line in lines)
+            {
+                if (line.Length != 0)
+                {
+                    string[] param = line.Split(',');
+                    students.Add(new moodle.student(param[0], param[1], param[2], param[3]));
+                }
+                
+            }
         }
         string _type = "csv";
         string file_opener.type { get { return _type; } set { _type = value; } }

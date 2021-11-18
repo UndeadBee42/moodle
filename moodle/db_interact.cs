@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace db_interact
 {
+    
     public interface db_interact
     {
         /*
@@ -11,10 +12,12 @@ namespace db_interact
         void connect();
         Dictionary<string, string> get_settings();
         void set_settings(Dictionary<string, string> s);
+        
         // добавить пользователей коммент
     }
     public class sql_server : db_interact
     {
+        
         public sql_server() { _setting = new Dictionary<string, string>(); }
         public void connect() { }
         Dictionary<string, string> _setting;
