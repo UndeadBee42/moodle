@@ -67,7 +67,7 @@ namespace moodle_export
             foreach (var item in _students)
             { 
                 file += translit(item.firstname.ToLower()) + ",";
-                file += translit(item.lastname.ToLower()) + ",";
+                file += translit(item.firstname.ToLower()) + ",";
                 file += translit(item.lastname.ToLower()) + ",";
                 file += translit(item.firstname.ToLower()) + "@example.com,";
                 string password = translit(item.firstname.ToLower());
