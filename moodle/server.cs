@@ -66,13 +66,12 @@ namespace server
                 // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
                 if ((req.HttpMethod == "POST"))
                 {
-                    BinaryReader reader = new BinaryReader(req.InputStream,Encoding.Unicode);
-                    
+                    BinaryReader reader = new BinaryReader(req.InputStream,Encoding.UTF8);
                     char[] content;
                     string data;
                     content = reader.ReadChars((int)req.ContentLength64);
                     string parseble =new string(content);
-                   
+                    Console.WriteLine(parseble);
                     if (parsers.Keys.Contains(req.Url.AbsolutePath.Substring(1))) {
                         parsers[req.Url.AbsolutePath.Substring(1)].parse(parseble);
                         data = "ok";

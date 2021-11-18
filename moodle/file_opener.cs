@@ -37,7 +37,7 @@ namespace file_opener
                 if (line.Length != 0)
                 {
                     string[] param = line.Split(',');
-                    students.Add(new moodle.student(param[0], param[1], param[2], param[3]));
+                    students.Add(new moodle.student(param[1], param[0], param[2], param[3]));
                 }
                 
             }

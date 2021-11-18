@@ -22,6 +22,7 @@ namespace moodle
     }
     public partial class Form1 : Form
     {
+
         //контейнеры для открывателей файлов и БД взаимодействователей
         List<file_opener.file_opener> file_openers = new List<file_opener.file_opener>();
         List<db_interact.db_interact> db_interactors = new List<db_interact.db_interact>();
@@ -51,6 +52,7 @@ namespace moodle
         public Form1()
         {
             InitializeComponent();
+           
             // добавляем экспортеры и классы для работы с базами данных
             file_openers.Add(new file_opener.cvs_opener());
             db_interactors.Add(new db_interact.sql_server());

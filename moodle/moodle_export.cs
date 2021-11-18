@@ -77,6 +77,7 @@ namespace moodle_export
                 file += "\n";
             }
             File.WriteAllText("C:\\Users\\User\\source\\repos\\out.csv", file, Encoding.UTF8);
+            Console.WriteLine(file);
             System.Diagnostics.Process.Start("C:\\Users\\User\\Desktop\\MoodleWindowsInstaller-latest\\server\\php\\php.exe", "C:\\Users\\User\\Desktop\\MoodleWindowsInstaller-latest\\server\\moodle\\admin\\tool\\uploaduser\\cli\\uploaduser.php --file=C:\\Users\\User\\source\\repos\\out.csv");
         }
     }

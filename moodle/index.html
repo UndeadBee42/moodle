@@ -26,7 +26,7 @@
             }
             httpRequest.onreadystatechange = alertContents;
             tmp = document.getElementById('input').files[0].name.split(".")
-            reader.readAsBinaryString(document.getElementById('input').files[0])
+            reader.readAsArrayBuffer(document.getElementById('input').files[0])
             httpRequest.open('POST', tmp[tmp.length - 1]);
         }
 
