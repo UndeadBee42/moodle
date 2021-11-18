@@ -1,45 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>web interface</title>
-	<meta charset="utf-8">
+    <title>web interface</title>
+    <meta charset="utf-8">
 </head>
 <body>
-<input type="file" id="input"> <br>
-<button id="ajaxButton" type="button">Upload file</button>
-<button onclick="window.open('settings', '_blank');">settings</button>
+    <input type="file" id="input"> <br>
+    <button id="ajaxButton" type="button">Upload file</button>
+    <button onclick="window.open('settings', '_blank');">settings</button>
+    <form><input type="submit" name="send">send</form>
+    <script>
+        var httpRequest;
+        const reader = new FileReader();
+        reader.onload = function () {
+            httpRequest.send(reader.result);
+        };
+        document.getElementById("ajaxButton").addEventListener('click', makeRequest);
 
+        function makeRequest() {
+            httpRequest = new XMLHttpRequest();
 
-<script>
-var httpRequest;
-const reader = new FileReader();
-reader.onload = function(){
-  httpRequest.send(reader.result);
-};
-document.getElementById("ajaxButton").addEventListener('click', makeRequest);
+            if (!httpRequest) {
+                alert('Giving up :( Cannot create an XMLHTTP instance');
+                return false;
+            }
+            httpRequest.onreadystatechange = alertContents;
+            tmp = document.getElementById('input').files[0].name.split(".")
+            reader.readAsBinaryString(document.getElementById('input').files[0])
+            httpRequest.open('POST', tmp[tmp.length - 1]);
+        }
 
-  function makeRequest() {
-    httpRequest = new XMLHttpRequest();
-
-    if (!httpRequest) {
-      alert('Giving up :( Cannot create an XMLHTTP instance');
-      return false;
-    }
-    httpRequest.onreadystatechange = alertContents;
-    tmp = document.getElementById('input').files[0].name.split(".")
-    reader.readAsBinaryString(document.getElementById('input').files[0])
-    httpRequest.open('POST', tmp[tmp.length-1]);
-  }
-
-  function alertContents() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        alert(httpRequest.responseText);
-      } else {
-        alert("error");
-      }
-    }
-  }
-</script>
+        function alertContents() {
+            if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                if (httpRequest.status === 200) {
+                    alert(httpRequest.responseText);
+                } else {
+                    alert("error");
+                }
+            }
+        }
+    </script>
 </body>
 </html>
