@@ -49,7 +49,7 @@ namespace server
                 // Peel out the requests and response objects
                 HttpListenerRequest req = ctx.Request;
                 HttpListenerResponse resp = ctx.Response;
-                Console.WriteLine(req.Url.AbsolutePath);
+                Console.WriteLine(req.Url);
                 int last_dot_index = req.Url.AbsolutePath.LastIndexOf('.');
                 if (last_dot_index != -1) {
                     if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "png") {
