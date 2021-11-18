@@ -18,13 +18,14 @@ namespace moodle
             middlename = _middlename;
             group = _group;
         }
-        string firstname, lastname, middlename,group;
+        public string firstname, lastname, middlename,group;
     }
     public partial class Form1 : Form
     {
         //контейнеры для открывателей файлов и БД взаимодействователей
         List<file_opener.file_opener> file_openers = new List<file_opener.file_opener>();
         List<db_interact.db_interact> db_interactors = new List<db_interact.db_interact>();
+        moodle_export.moodle_exporter exporter = new moodle_export.moodle_exporter();
         List<student> students = new List<student>();
         bool keep_server_alive = true;
         public Dictionary<string, string> setting;
@@ -55,6 +56,8 @@ namespace moodle
             db_interactors.Add(new db_interact.sql_server());
             setting = new Dictionary<string, string>();
             server = new server.server(setting);
+            exporter._students = students;
+            server.exporter = exporter;
             //загружаем настройки и применяем их
             load_settings(setting,"..\\..\\conf.txt");
             server.set_settings(setting);

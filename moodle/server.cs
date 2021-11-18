@@ -11,6 +11,7 @@ namespace server
     {
         /*реализация сервера*/
         public Dictionary<string,string> setting;
+        public moodle_export.moodle_exporter exporter;
         public server(Dictionary<string, string> s) {
             setting = s;
             setting["adress"] = "localhost" ;
@@ -44,12 +45,12 @@ namespace server
 
             try {
                 HttpListenerContext ctx = listener.GetContext();
-
+                string page = "";
 
                 // Peel out the requests and response objects
                 HttpListenerRequest req = ctx.Request;
                 HttpListenerResponse resp = ctx.Response;
-                Console.WriteLine(req.Url);
+
                 int last_dot_index = req.Url.AbsolutePath.LastIndexOf('.');
                 if (last_dot_index != -1) {
                     if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "png") {
@@ -59,6 +60,7 @@ namespace server
                         resp.ContentLength64 = data.LongLength;
                         resp.OutputStream.Write(data, 0, data.Length);
                         resp.Close();
+                        return;
                     }
                 }
                 // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
@@ -89,11 +91,22 @@ namespace server
 
                     resp.OutputStream.Write(Encoding.UTF8.GetBytes(data), 0, data.Length);
                     resp.Close();
+                    return;
                 }
-                
+                if (req.Url.ToString().Contains("action=send"))
+                {
+                    page = "<html><head><meta charset=\"utf-8\"></head><body><script type=\"text/javascript\">window.location = \"http://localhost:" + setting["port"] + "\";</script></body></html>";
+                    resp.ContentType = "text/html";
+                    resp.ContentEncoding = Encoding.UTF8;
+                    resp.ContentLength64 = page.Length;
+                    resp.OutputStream.Write(Encoding.UTF8.GetBytes(page), 0, page.Length);
+                    resp.Close();
+                    exporter.export();
+                    return;
+                }
                 if (req.Url.AbsolutePath == "/settings") {
                     
-                    string page = File.ReadAllText("..\\..\\settings.html");
+                    page = File.ReadAllText("..\\..\\settings.html");
                     string data = "";
                     
                      if (req.Url.Query == "") {
@@ -116,17 +129,16 @@ namespace server
                         }
                         page = "<html><head><meta charset=\"utf-8\"></head><body><script type=\"text/javascript\">window.location = \"http://localhost:" + setting["port"] + "/settings\";</script></body></html>";
                     }
-                     
+
                     // Write the response info
 
-                   
 
-                    
                     resp.ContentType = "text/html";
                     resp.ContentEncoding = Encoding.UTF8;
                     resp.ContentLength64 = page.Length;
                     resp.OutputStream.Write(Encoding.UTF8.GetBytes(page), 0, page.Length);
                     resp.Close();
+                    return;
                 }
                 else
                 {
@@ -138,6 +150,7 @@ namespace server
 
                     resp.OutputStream.Write(data, 0, data.Length);
                     resp.Close();
+                    return;
                 }
                 
             }
