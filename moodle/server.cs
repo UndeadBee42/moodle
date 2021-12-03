@@ -10,12 +10,12 @@ namespace server
     public class server
     {
         /*реализация сервера*/
-        public Dictionary<string,string> setting;
+        //public Dictionary<string,string> setting;
         public moodle_export.moodle_exporter exporter;
         public server(Dictionary<string, string> s) {
-            setting = s;
-            setting["adress"] = "localhost" ;
-            setting["port"] = "8000";
+            //setting = s;
+            //setting["adress"] = "localhost" ;
+            //setting["port"] = "8000";
             listener = new HttpListener();
             //listener.Prefixes.Add("http://localhost:8000/");
             parsers = new Dictionary<string,file_opener.file_opener>();
@@ -24,7 +24,7 @@ namespace server
         public Dictionary<string, file_opener.file_opener> parsers;
         public Dictionary<string, string> global_settings;
         public void set_settings(Dictionary<string, string> s) {
-            setting = s;
+            global_settings = s;
         }
 
         public  HttpListener listener;
@@ -94,13 +94,13 @@ namespace server
                 }
                 if (req.Url.ToString().Contains("action=send"))
                 {
-                    page = "<html><head><meta charset=\"utf-8\"></head><body><script type=\"text/javascript\">window.location = \"http://localhost:" + setting["port"] + "\";</script></body></html>";
+                    page = "<html><head><meta charset=\"utf-8\"></head><body><script type=\"text/javascript\">window.location = \"http://localhost:" + global_settings["port"] + "\";</script></body></html>";
                     resp.ContentType = "text/html";
                     resp.ContentEncoding = Encoding.UTF8;
                     resp.ContentLength64 = page.Length;
                     resp.OutputStream.Write(Encoding.UTF8.GetBytes(page), 0, page.Length);
                     resp.Close();
-                    exporter.export();
+                    exporter.export(global_settings["php"], global_settings["php_args"]);
                     return;
                 }
                 if (req.Url.AbsolutePath == "/settings") {
@@ -126,7 +126,7 @@ namespace server
                             string[] tmp = item.Split('=');
                             global_settings[WebUtility.UrlDecode(tmp[0])] = WebUtility.UrlDecode(tmp[1]);
                         }
-                        page = "<html><head><meta charset=\"utf-8\"></head><body><script type=\"text/javascript\">window.location = \"http://localhost:" + setting["port"] + "/settings\";</script></body></html>";
+                        page = "<html><head><meta charset=\"utf-8\"></head><body><script type=\"text/javascript\">window.location = \"http://localhost:" + global_settings["port"] + "/settings\";</script></body></html>";
                     }
 
                     // Write the response info

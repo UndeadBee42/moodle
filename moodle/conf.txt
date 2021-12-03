@@ -1,3 +1,4 @@
 adress~localhost
 port~8000
-test param~баракадабра
+php~C:\Users\User\Desktop\MoodleWindowsInstaller-latest\server\php\php.exe
+php_args~C:\Users\User\Desktop\MoodleWindowsInstaller-latest\server\moodle\admin\tool\uploaduser\cli\uploaduser.php --file=C:\Users\User\source\repos\out.csv

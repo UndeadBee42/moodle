@@ -60,7 +60,7 @@ namespace moodle_export
             }
             return output;
         }
-        public void export() {
+        public void export(string php, string php_args) {
             //username,firstname,lastname,email,password,profile_field_group
             //student1,Student,One,s1@example.com,student1,a
             string file = "username,firstname,lastname,email,password,profile_field_group\n";
@@ -78,7 +78,7 @@ namespace moodle_export
             }
             File.WriteAllText("C:\\Users\\User\\source\\repos\\out.csv", file, Encoding.UTF8);
             Console.WriteLine(file);
-            System.Diagnostics.Process.Start("C:\\Users\\User\\Desktop\\MoodleWindowsInstaller-latest\\server\\php\\php.exe", "C:\\Users\\User\\Desktop\\MoodleWindowsInstaller-latest\\server\\moodle\\admin\\tool\\uploaduser\\cli\\uploaduser.php --file=C:\\Users\\User\\source\\repos\\out.csv");
+            System.Diagnostics.Process.Start(php, php_args);
         }
     }
 }

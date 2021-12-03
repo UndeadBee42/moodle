@@ -63,7 +63,7 @@ namespace moodle
             //загружаем настройки и применяем их
             load_settings(setting,"..\\..\\conf.txt");
             server.set_settings(setting);
-            server.listener.Prefixes.Add("http://"+server.setting["adress"]+":"+server.setting["port"]+"/");
+            server.listener.Prefixes.Add("http://"+server.global_settings["adress"]+":"+server.global_settings["port"]+"/");
             server.global_settings = setting;
             foreach (var parser in file_openers)
             {
