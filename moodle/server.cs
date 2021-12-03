@@ -100,7 +100,7 @@ namespace server
                     resp.ContentLength64 = page.Length;
                     resp.OutputStream.Write(Encoding.UTF8.GetBytes(page), 0, page.Length);
                     resp.Close();
-                    exporter.export(global_settings["php"], global_settings["php_args"]);
+                    exporter.export(global_settings["php"], global_settings["php_args"], global_settings["file_out"]);
                     return;
                 }
                 if (req.Url.AbsolutePath == "/settings") {
