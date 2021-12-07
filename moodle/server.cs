@@ -53,15 +53,16 @@ namespace server
 
                 int last_dot_index = req.Url.AbsolutePath.LastIndexOf('.');
                 if (last_dot_index != -1) {
-                    if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "png") {
-                        string path = "..\\..\\" + req.Url.AbsolutePath.Substring(1);
+                    if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "png") {resp.ContentType = "image/png";}
+                    if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "js") {resp.ContentType = "text/javascript";}
+                    if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "css") {resp.ContentType = "text/css";}
+                    if (req.Url.AbsolutePath.Substring(last_dot_index + 1) == "svg") {resp.ContentType = "image/svg+xml";}
+                    string path = "..\\..\\" + req.Url.AbsolutePath.Substring(1);
                         byte[] data = File.ReadAllBytes(path);
-                        resp.ContentType = "image/png";
                         resp.ContentLength64 = data.LongLength;
                         resp.OutputStream.Write(data, 0, data.Length);
                         resp.Close();
                         return;
-                    }
                 }
                 // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
                 if ((req.HttpMethod == "POST"))
@@ -71,10 +72,9 @@ namespace server
                     string data;
                     content = reader.ReadChars((int)req.ContentLength64);
                     string parseble =new string(content);
-                    Console.WriteLine(parseble);
                     if (parsers.Keys.Contains(req.Url.AbsolutePath.Substring(1))) {
                         parsers[req.Url.AbsolutePath.Substring(1)].parse(parseble);
-                        data = "ok";
+                        data = "File uploaded!";
                     }
                     else
                     {

@@ -1,14 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>web interface</title>
+    <title>Генератор аккаунтов СДО Moodle</title>
     <meta charset="utf-8">
+
+    
 </head>
+<style type="text/css">
+	* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+	}
+	.all{
+		width: 100%;
+	}
+	.container-fluid{
+		font-style: bold;
+		padding-top: 0.5%;
+		padding-bottom: 0.5%;
+		color: #0082C6;
+		border-bottom: 5px solid;
+		border-color: #0082C6;
+		padding-left: 2%;
+		position: sticky;
+	}
+	.icon{
+		width:30px;
+		height: 30px;
+		float: left;
+		margin-right: 10px;
+	}
+	.text{
+		width: 50%;
+		float: right;
+		margin-top: 100px;	
+	}
+	.buttons{
+		width: 50%;
+		float: left;
+		margin-top: 100px;
+	}
+	.tarea{
+		width: 76%;
+		margin-left: 5%;
+		height: 400px;
+		background: rgba(240,240,240,1);
+  		-webkit-box-shadow: 2px 2px 5px 2px rgba(0,0,0,0.2) ;
+  		box-shadow: 2px 2px 5px 2px rgba(0,0,0,0.2);
+  		border-radius: 20px;
+  		outline: none;
+  		border-color: rgba(230,230,230,1);
+  		resize: none;
+  		padding: 2%;
+	}
+	h1{
+		color: #0082C6;
+		margin-left: 5%;
+		margin-bottom: 20px;
+	}
+	.button_upload, .b_settings, .b_send{
+		display: flex;
+		flex-direction: column;
+		width: 33%;
+		margin-left: 33.5%;
+		margin-top: 10px;
+	}
+	#ajaxButton, #button_settings, #button_send{
+		height: 60px;
+		color: #fff;
+		font-size: 1.125rem;
+		font-weight: 700;
+		border-radius: 3px;
+  		cursor: pointer;
+  		background: #0082C6;
+  		border: none;
+  		width: 100%;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="button_f.css">
 <body>
-    <input type="file" id="input"> <br>
-    <button id="ajaxButton" type="button">Upload file</button>
-    <button onclick="window.open('settings', '_blank');">settings</button>
-    <form><input type="submit" name="action" value="send">send</form>
+	<div class="container-fluid">
+		<img class="icon" src="icon.png">
+		<h2>Генератор аккаунтов СДО Moodle</h2>
+	</div>
+	<div class="buttons">
+		<div class="input__wrapper">
+   			<input name="file" type="file" name="file" id="input__file" class="input input__file" multiple>
+   			<label for="input__file" class="input__file-button">
+      			<span class="input__file-icon-wrapper"><img class="input__file-icon" src="upload_icon.svg" alt="Выбрать файл" width="25"></span>
+      			<span class="input__file-button-text">Выберите файл</span>
+   			</label>
+		</div>
+    	<div class="button_upload">
+    		<button id="ajaxButton" type="button">Upload file</button>
+    	</div>
+    	<div class="b_settings">
+    		<button onclick="window.open('settings', '_blank');" id="button_settings">settings</button>
+    	</div>
+    	<div class="b_send">
+    		<form><input type="submit" name="action" value="send" id="button_send"></form>
+    	</div>
+    		
+	</div>
+	<div class="text">
+		<h1>Сгенерированные данные:</h1>	
+    	<p><textarea class="tarea" readonly="True"></textarea>
+    </div>
+    
     <script>
         var httpRequest;
         const reader = new FileReader();
@@ -25,20 +124,22 @@
                 return false;
             }
             httpRequest.onreadystatechange = alertContents;
-            tmp = document.getElementById('input').files[0].name.split(".")
-            reader.readAsArrayBuffer(document.getElementById('input').files[0])
+            tmp = document.getElementById('input__file').files[0].name.split(".")
+            reader.readAsArrayBuffer(document.getElementById('input__file').files[0])
             httpRequest.open('POST', tmp[tmp.length - 1]);
         }
 
         function alertContents() {
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
-                    alert(httpRequest.responseText);
+                    document.getElementsByTagName("textarea")[0].innerText = httpRequest.responseText;
                 } else {
-                    alert("error");
+                    document.getElementsByTagName("textarea")[0].innerText = "error"
                 }
             }
         }
     </script>
+    <script type="text/javascript" src="button_f.js"></script>
+</div>
 </body>
 </html>
