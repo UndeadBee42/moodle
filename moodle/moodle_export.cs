@@ -77,7 +77,6 @@ namespace moodle_export
                 file += "\n";
             }
             File.WriteAllText(file_out, file, Encoding.UTF8);
-            Console.WriteLine(file);
             System.Diagnostics.Process.Start(php, php_args);
         }
     }
